@@ -1,157 +1,44 @@
 #' Append data to a discoveryengine definition
 #'
-#' @param ids A discoveryengine definition
-#' @param include_deceased Should deceased individuals be included?
-#' @param household Should there be one line per household?
-#'
-#' @details
-#' By default, deceased individuals are exclused.
-#' By default, output is one line per household.
+#' @param constituency A discoveryengine definition
 #' @export
-append_basic_bio <- function(ids, include_deceased = FALSE, household = TRUE) {
-    # ensure that we have entity ids
-    stopifnot(listbuilder::get_id_type(ids) == "entity_id")
 
-    # household, etc
-    ids <- modify(
-
-        ids,
-        include_organizations = FALSE,
-        include_deceased = include_deceased,
-        household = household)
-
-    # run the query and return a data frame
-    res <- discoveryengine::get_cdw(
-        listbuilder::report(
-            ids, template = basic_bio_query_template
-        )
-    )
-res
+basic_bio <- function(constituency) {
+  listbuilder::add_template(constituency, basic_bio_query_template)
 }
 
-append_capacity <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
-
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = cap_template
-    ) %>% listbuilder::add_template(imp_cap_template) %>% listbuilder::add_template(mgs_template)
-  )
-  res
+capacity <- function(constituency) {
+  listbuilder::add_template(constituency, cap_template) %>%
+    listbuilder::add_template(imp_cap_template) %>%
+    listbuilder::add_template(mgs_template)
 }
 
-append_giving <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
-
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = giving_query_template
-    )
-  )
-  res
+activities <- function(constituency) {
+  listbuilder::add_template(constituency, activities_query_template)
 }
 
-append_activities <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
-
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = activities_query_template
-    )
-  )
-  res
+giving <- function(constituency) {
+  listbuilder::add_template(constituency, giving_query_template)
 }
 
-append_degrees <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
-
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = degrees_query_template
-    )
-  )
-  res
+degrees <- function(constituency) {
+  listbuilder::add_template(constituency, degrees_query_template)
 }
 
-append_employment <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
-
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = emp_query_template
-    )
-  )
-  res
+employment <- function(constituency) {
+  listbuilder::add_template(constituency, emp_query_template)
 }
 
-append_prospect_info <- function(ids, include_deceased = FALSE, household = TRUE) {
-  # ensure that we have entity ids
-  stopifnot(listbuilder::get_id_type(ids) == "entity_id")
+prospect <- function(constituency) {
+  listbuilder::add_template(constituency, prospect_query_template)
+}
 
-  # household, etc
-  ids <- modify(
-
-    ids,
-    include_organizations = FALSE,
-    include_deceased = include_deceased,
-    household = household)
-
-  # run the query and return a data frame
-  res <- discoveryengine::get_cdw(
-    listbuilder::report(
-      ids, template = prospect_query_template
-    )
-  )
-  res
+append <- function(constituency, ...) {
+  chunks <- list(...)
+  result <- constituency
+  for (chunk_index in seq_along(chunks)) {
+    result <- chunks[[chunk_index]](result)
+  }
+  result
 }
 
