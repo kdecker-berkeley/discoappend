@@ -24,7 +24,7 @@ select
 capacity_rating_code,
 capacity_rating_desc,
 inclination_rating_desc,
-builder_of_berkeley_flg as builder_of_berkeley,
+builder_of_berkeley_flg as builder_of_berkeley
 from cdw.d_entity_mv
 "
 
