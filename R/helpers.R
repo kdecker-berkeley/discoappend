@@ -32,7 +32,7 @@ imp_cap_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_caacity_score,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_score,
 first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_desc
 from
 cdw.d_bio_demographic_profile_mv
