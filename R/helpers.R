@@ -94,16 +94,19 @@ from cdw.d_entity_mv
 
 emp_query_template <-
   "
-select
-##entity_id##,
-emp_job_title as job_title,
-position_level_desc as position_level,
-fld_of_work_desc as field_of_work,
-sic_code_desc as sic_code,
-business_city,
-business_state_code as business_state,
-business_zipcode5 as business_zip
-from cdw.d_entity_mv
+select 
+entity.##entity_id##,
+entity.employer_entity_id,
+employ.report_name as employer_name,
+entity.emp_job_title as job_title,
+entity.position_level_desc as position_level,
+entity.fld_of_work_desc as field_of_work,
+entity.sic_code_desc as sic_code,
+entity.business_city,
+entity.business_state_code as business_state,
+entity.business_zipcode5 as business_zip
+from cdw.d_entity_mv entity
+left join cdw.d_entity_mv employ on entity.employer_entity_id = employ.entity_id
 "
 
 prospect_query_template <-
