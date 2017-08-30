@@ -94,7 +94,7 @@ from cdw.d_entity_mv
 
 emp_query_template <-
   "
-select 
+select
 entity.##entity_id##,
 entity.employer_entity_id,
 employ.report_name as employer_name,
@@ -124,10 +124,3 @@ last_contact,
 university_sig_flg as university_signataure
 from cdw.sf_entity_based_prspct_smry_mv
 "
-
-modify <- discoveryengine:::modify
-
-ReName <- function(strings) {
-    s <- tolower(strings)
-    gsub("(_|^)(.)", "\\U\\2\\E", s, perl = TRUE)
-}
