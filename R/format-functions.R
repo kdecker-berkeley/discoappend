@@ -1,11 +1,3 @@
-append_template <- function(x, template, column_formats = NULL) {
-  old_column_formats <- attr(x, "column_formats")
-  new_report <- listbuilder::add_template(x, template)
-  new_column_formats <- c(old_column_formats, column_formats)
-  attr(new_report, "column_formats") <- new_column_formats
-  new_report
-}
-
 model_desc_format <- function(desc)
   factor(desc, levels = c("Most Likely", "More Likely", "Somewhat Likely",
                           "Less Likely", "Least Likely"))
