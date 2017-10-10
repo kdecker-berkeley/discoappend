@@ -24,7 +24,7 @@ select
 capacity_rating_code,
 capacity_rating_desc,
 inclination_rating_desc,
-builder_of_berkeley_flg as builder_of_berkeley,
+builder_of_berkeley_flg as builder_of_berkeley
 from cdw.d_entity_mv
 "
 
@@ -32,7 +32,7 @@ imp_cap_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_caacity_score,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_score,
 first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_desc
 from
 cdw.d_bio_demographic_profile_mv
@@ -95,15 +95,18 @@ from cdw.d_entity_mv
 emp_query_template <-
   "
 select
-##entity_id##,
-emp_job_title as job_title,
-position_level_desc as position_level,
-fld_of_work_desc as field_of_work,
-sic_code_desc as sic_code,
-business_city,
-business_state_code as business_state,
-business_zipcode5 as business_zip
-from cdw.d_entity_mv
+entity.##entity_id##,
+entity.employer_entity_id,
+employ.report_name as employer_name,
+entity.emp_job_title as job_title,
+entity.position_level_desc as position_level,
+entity.fld_of_work_desc as field_of_work,
+entity.sic_code_desc as sic_code,
+entity.business_city,
+entity.business_state_code as business_state,
+entity.business_zipcode5 as business_zip
+from cdw.d_entity_mv entity
+left join cdw.d_entity_mv employ on entity.employer_entity_id = employ.entity_id
 "
 
 prospect_query_template <-
@@ -121,10 +124,3 @@ last_contact,
 university_sig_flg as university_signataure
 from cdw.sf_entity_based_prspct_smry_mv
 "
-
-modify <- discoveryengine:::modify
-
-ReName <- function(strings) {
-    s <- tolower(strings)
-    gsub("(_|^)(.)", "\\U\\2\\E", s, perl = TRUE)
-}
