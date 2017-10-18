@@ -1,0 +1,19 @@
+#' Append data to a discoveryengine definition
+#'
+#' @param constituency A discoveryengine definition
+#' @param ... One or more chunks to be appended
+#' @export
+#' @examples
+#' wealthy = has_capacity(1)
+#' wealthy_data = append(wealthy, basic_bio, capacity, giving)
+#' display(wealthy_data)
+#'
+append <- function(constituency, ...) {
+  chunks <- list(...)
+  result <- constituency
+  for (chunk_index in seq_along(chunks)) {
+    result <- chunks[[chunk_index]](result)
+  }
+  result
+}
+
