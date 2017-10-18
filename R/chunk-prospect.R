@@ -1,6 +1,7 @@
 #' Append prospect data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname prospect
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

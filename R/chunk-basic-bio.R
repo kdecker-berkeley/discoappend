@@ -1,6 +1,7 @@
 #' Append basic bio data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname basic_bio
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

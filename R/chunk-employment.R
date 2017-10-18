@@ -1,6 +1,7 @@
 #' Append employment data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname employment
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

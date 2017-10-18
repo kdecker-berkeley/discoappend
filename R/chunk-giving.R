@@ -1,6 +1,7 @@
 #' Append giving data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname giving
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

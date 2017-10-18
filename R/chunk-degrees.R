@@ -1,6 +1,7 @@
 #' Append degree data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname degrees
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

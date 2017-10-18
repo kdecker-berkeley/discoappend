@@ -2,6 +2,7 @@
 #'
 #' @param constituency A discoveryengine definition
 #' @param ... One or more chunks to be appended
+#' @rdname append
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

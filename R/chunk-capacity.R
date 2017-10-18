@@ -1,6 +1,7 @@
 #' Append capacity data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname capacity
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)

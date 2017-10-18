@@ -1,6 +1,7 @@
 #' Append activity data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
+#' @rdname activities
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)
