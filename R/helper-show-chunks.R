@@ -26,5 +26,3 @@ show_chunks <- function() {
                   order = list(list(1, "asc"))
                 ))
 }
-
-readr::spec(chunk_finder)
