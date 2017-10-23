@@ -1,5 +1,9 @@
 chunk_df <- function() {
-  chunk_finder <- readr::read_csv("R:/Prospect Development/Prospect Analysis/discoappend/extdata/chunk_finder.csv")
+  chunk_finder <- readr::read_csv("R:/Prospect Development/Prospect Analysis/discoappend/extdata/chunk_finder.csv",
+    col_types = readr::cols(
+    chunk_name = readr::col_character(),
+    output = readr::col_character()
+  ))
 }
 
 #' Browse the available chunk names and outputs
@@ -23,3 +27,4 @@ show_chunks <- function() {
                 ))
 }
 
+readr::spec(chunk_finder)
