@@ -9,6 +9,9 @@ employment(constituency)
 \arguments{
 \item{constituency}{A discoveryengine definition}
 }
+\value{
+data frame with the following columns: entity id, employer entity id, employer name, job title, position level, field of work, sic code, business city, business state, business zip code
+}
 \description{
 Append employment data to a discoveryengine definition
 }

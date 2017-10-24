@@ -9,6 +9,7 @@
 #' wealthy_data = append(wealthy, basic_bio, capacity, giving)
 #' display(wealthy_data)
 #'
+#' See show_chunks() to search all available chunks and outputs.
 append <- function(constituency, ...) {
   chunks <- list(...)
   result <- constituency

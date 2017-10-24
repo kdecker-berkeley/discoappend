@@ -1,14 +1,15 @@
-#' Append capacity data to a discoveryengine definition
+#' Append rating data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
-#' @rdname capacity
+#' @return data frame with the following columns: entity id, capacity rating code, capacity rating description, inclination rating description, builder of berkeley, implied capacity score, implied capacity description, major gift score, major gift description
+#' @rdname rating
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)
-#' wealthy_capacity = capacity(wealthy)
-#' display(wealthy_capacity)
+#' wealthy_ratings = rating(wealthy)
+#' display(wealthy_ratings)
 #'
-capacity <- function(constituency) {
+rating <- function(constituency) {
   listbuilder::add_template(
     constituency, cap_template,
     column_formats = list(capacity_rating_code = as.integer,

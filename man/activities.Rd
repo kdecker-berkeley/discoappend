@@ -9,6 +9,9 @@ activities(constituency)
 \arguments{
 \item{constituency}{A discoveryengine definition}
 }
+\value{
+data frame with the following columns: entity id, student activities, sports
+}
 \description{
 Append activity data to a discoveryengine definition
 }

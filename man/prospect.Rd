@@ -9,6 +9,9 @@ prospect(constituency)
 \arguments{
 \item{constituency}{A discoveryengine definition}
 }
+\value{
+data frame with the following columns: entity id, active major proposal flg, active annual proposal flg, proposals, primary manager, primary manager office, last 3 events, event count, last contact, university signature
+}
 \description{
 Append prospect data to a discoveryengine definition
 }

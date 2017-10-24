@@ -22,4 +22,5 @@ wealthy = has_capacity(1)
 wealthy_data = append(wealthy, basic_bio, capacity, giving)
 display(wealthy_data)
 
+See show_chunks() to search all available chunks and outputs.
 }
