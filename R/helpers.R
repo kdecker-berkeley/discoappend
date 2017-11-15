@@ -56,15 +56,15 @@ giving_query_template <-
   "
 select
 ##entity_id##,
-total_raised_amt as lifetime_giving,
-largest_raised_gf_amt as largest_gift,
+nvl(total_raised_amt, 0) as lifetime_giving,
+nvl(largest_raised_gf_amt, 0) as largest_gift,
 largest_raised_gf_dt as largest_gift_date,
 largest_raised_gf_area_desc as largest_gift_area,
-last_raised_gf_amt as last_gift,
+nvl(last_raised_gf_amt, 0) as last_gift,
 last_raised_gf_dt as last_gift_date,
 last_raised_gf_area_desc as last_gift_area,
-avg_raised_gf_amt as average_gift,
-total_pledge_balance as outstanding_pledges
+nvl(avg_raised_gf_amt, 0) as average_gift,
+nvl(total_pledge_balance, 0) as outstanding_pledges
 from cdw.sf_entity_summary_mv
 "
 
@@ -119,7 +119,7 @@ proposal_summary_by_stage as proposals,
 entitymanager as primary_manager,
 primary_manager_office_desc as primary_manager_office,
 last_3_events,
-event_count,
+nvl(event_count, 0) as event_count,
 last_contact,
 university_sig_flg as university_signataure
 from cdw.sf_entity_based_prspct_smry_mv
