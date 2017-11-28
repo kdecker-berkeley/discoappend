@@ -11,7 +11,6 @@ fec_giving_to_committee <- function(..., from = NULL, to = NULL) {
 
 #' @export
 fec_giving_to_category <- function(..., from = NULL, to = NULL) {
-  # res <- fec_gave_to_category(environmental_policy)
   res <- discoveryengine::fec_gave_to_category(..., from = from, to = to)
 
   cmte_qry <- discoveryengine::to_sql(res$rhs)

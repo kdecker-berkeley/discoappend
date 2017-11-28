@@ -74,4 +74,4 @@ as_report_template <- function(output, colname) {
     attr(res, "column_formats") <- output$column_formats
   }
   res
-  }
+}
