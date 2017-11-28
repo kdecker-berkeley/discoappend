@@ -1,17 +1,50 @@
-daterange <- discoveryengine:::daterange
-prep_dots <- discoveryengine:::prep_dots
-string_param = discoveryengine:::string_param
-string_switch = discoveryengine:::string_switch
-r2sql <- listbuilder:::r2sql
-sum_output <- function(field_name) {
-  paste0("sum(", field_name, ")")
+custom <- function(report, ...) {
+  # make sure all arguments are named (somehow)
+  args <- list(...)
+  colnames <- names(args)
+  coldefs <- unname(args)
+
+  colnames <- trimws(colnames)
+  colnames <- colnames[colnames != ""]
+  if (length(unique(colnames)) != length(coldefs))
+    stop("Not all columns have unique names")
+
+  chunks <- Map(
+    function(x, y) as_report_template(x, colname = y),
+    coldefs, colnames
+  )
+
+  Reduce(listbuilder::add_template, x = chunks, init = report)
 }
 
-as_lb_template <- function(output) {
+r2sql <- listbuilder:::r2sql
+
+# outcols <- function(output) {
+#   tmpl <- "{{{output_coldef}}} as {{{output_colname}}}"
+#
+#   colnames <- names(output)
+#   colnames <- trimws(colnames)
+#   colnames <- colnames[colnames != ""]
+#   if (length(unique(colnames)) != length(output))
+#     stop("Not all columns have unique names")
+#
+#   output <- Map(function(x, y) list(output_colname = x, output_coldef = y),
+#       colnames, unname(output))
+#
+#   snippet <- lapply(output, function(x)
+#     whisker::whisker.render(tmpl, data = x))
+#
+#   paste(snippet, collapse = ",\n")
+#
+# }
+
+
+
+as_report_template <- function(output, colname) {
   tmpl <- "
 select
   {{{table}}}.{{{id_field}}} as ##{{{id_type}}}##,
-  {{{output_coldef}}} as {{{output_colname}}}
+  {{{output_spec}}} as {{{colname}}}
 from {{{schema}}}.{{{table}}}
 {{#haswhere}}
 where {{{where}}}
@@ -27,13 +60,11 @@ having {{{having}}}
   if (!is.null(where)) where <- r2sql(where)
   haswhere <- length(where) > 0
   where <- paste(where, collapse = " and ")
+
   having <- output$having
   if (!is.null(having)) having <- r2sql(having)
   hashaving <- length(having) > 0
   having <- paste(having, collapse = " and ")
-
-  output_coldef <- output$output[[1]]
-  output_colname <- names(output$output)[1]
 
   whisker::whisker.render(tmpl, data = list(
     table = output$table,
@@ -45,44 +76,16 @@ having {{{having}}}
     id_field = output$id_field,
     id_type = output$id_type,
     schema = output$schema,
-    output_coldef = output_coldef,
-    output_colname = output_colname
+    output_spec = unname(output$output),
+    colname = colname
   ))
 }
 
-output_builder <- function(table, id_field,
-                           output_col,
-                           parameter = NULL,
-                           aggregate_parameter = NULL,
-                           switches = NULL, aggregate_switches = NULL,
-                           isgrouped,
-                           schema = "CDW") {
-
-  res <- discoveryengine:::widget_builder(
-    table = table,
-    id_field = id_field,
-    id_type = "entity_id",
-    parameter = parameter,
-    aggregate_parameter = aggregate_parameter,
-    switches = switches,
-    aggregate_switches = aggregate_switches,
-    schema = schema
-  )
-
+giving_to_area_chunk <- function(..., from = NULL, to = NULL) {
+  res <- gave_to_area(..., from = from, to = to)
   res <- unclass(res)
-  res <- c(res, isgrouped = isgrouped, list(output = output_col))
-
+  res$isgrouped <- TRUE
+  res$output <- "sum(benefit_aog_credited_amt)"
+  res$having <- NULL
   res
-}
-
-giving_to_area_chunk <- function(aogs, from = NULL, to = NULL) {
-  output_builder(
-    table = "f_transaction_detail_mv",
-    id_field = "donor_entity_id_nbr",
-    parameter = string_param("alloc_school_code", aogs),
-    switches = list(daterange("giving_record_dt", from, to),
-                    string_switch("pledged_basis_flg", "Y")),
-    output_col = list(giv2area = sum_output("benefit_aog_credited_amt")),
-    isgrouped = TRUE
-  )
 }
