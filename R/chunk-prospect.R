@@ -10,5 +10,7 @@
 #' display(wealthy_prospect)
 #'
 prospect <- function(constituency) {
-  listbuilder::add_template(constituency, prospect_query_template)
+  listbuilder::add_template(
+    constituency, prospect_query_template,
+    column_formats = list(event_count = na_zero))
 }

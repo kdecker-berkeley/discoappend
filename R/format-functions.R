@@ -21,3 +21,5 @@ capacity_desc_format <- function(desc) {
     "Cannot be rated"
   ))
 }
+
+na_zero <- function(x) ifelse(is.na(x), 0, x)
