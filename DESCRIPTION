@@ -12,7 +12,8 @@ Imports:
   discoveryengine,
   listbuilder,
   dplyr,
-    magrittr
+  magrittr,
+  dbplyr
 Suggests:
   knitr,
   rmarkdown
