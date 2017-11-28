@@ -10,7 +10,13 @@
 #' display(wealthy_giving)
 #'
 giving <- function(constituency) {
-  listbuilder::add_template(constituency, giving_query_template)
+  listbuilder::add_template(
+    constituency, giving_query_template,
+    column_formats = list(
+      lifetime_giving = na_zero,
+      largest_gift = na_zero,
+      last_gift = na_zero,
+      average_gift = na_zero,
+      outstanding_pledges = na_zero
+    ))
 }
-
-
