@@ -1,6 +1,6 @@
 #' @export
 giving_to_area <- function(..., from = NULL, to = NULL) {
-  res <- gave_to_area(..., from = from, to = to)
+  res <- discoveryengine::gave_to_area(..., from = from, to = to)
   res <- unclass(res)
   res$isgrouped <- TRUE
   res$output <- "sum(benefit_aog_credited_amt)"
