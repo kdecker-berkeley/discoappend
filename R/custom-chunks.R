@@ -29,17 +29,24 @@ custom <- function(report, ...) {
 
 r2sql <- listbuilder:::r2sql
 
+build_columnspecs <- function(output, colname) {
+  res <- vapply(output,
+                function(x) paste0(x$def, " as ", x$prefix, colname),
+                character(1))
+  paste(res, collapse = ", ")
+}
+
 as_report_template <- function(output, colname) {
   tmpl <- "
   select
-  {{{table}}}.{{{id_field}}} as ##{{{id_type}}}##,
-  {{{output_spec}}} as {{{colname}}}
-  from {{{schema}}}.{{{table}}}
+  {{{id_field}}} as ##{{{id_type}}}##,
+  {{{columnspecs}}}
+  from ({{from}})
   {{#haswhere}}
   where {{{where}}}
   {{/haswhere}}
   {{#isgrouped}}
-  group by {{{table}}}.{{{id_field}}}
+  group by {{{id_field}}}
   {{/isgrouped}}
   {{#hashaving}}
   having {{{having}}}
@@ -55,8 +62,10 @@ as_report_template <- function(output, colname) {
   hashaving <- length(having) > 0
   having <- paste(having, collapse = " and ")
 
+  columnspecs <- build_columnspecs(output$output, colname)
+
   res <- whisker::whisker.render(tmpl, data = list(
-    table = output$table,
+    from = output$from,
     haswhere = haswhere,
     where = where,
     isgrouped = output$isgrouped,
@@ -64,14 +73,16 @@ as_report_template <- function(output, colname) {
     having = having,
     id_field = output$id_field,
     id_type = output$id_type,
-    schema = output$schema,
-    output_spec = unname(output$output),
-    colname = colname
+    columnspecs = columnspecs
   ))
 
+  all_colnames <- vapply(output$output, function(x) x$prefix, character(1))
+  all_colnames <- paste0(all_colnames, colname)
+
   if (!is.null(output$column_formats)) {
-    names(output$column_formats) <- colname
-    attr(res, "column_formats") <- output$column_formats
+    fmts <- replicate(length(all_colnames), output$column_formats)
+    names(fmts) <- all_colnames
+    attr(res, "column_formats") <- fmts
   }
   res
 }
