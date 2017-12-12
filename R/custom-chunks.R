@@ -10,11 +10,37 @@ custom <- function(report, ...) {
   if (length(unique(colnames)) != length(coldefs))
     stop("Not all columns have unique names")
 
+  needs_householding <- which(
+    vapply(coldefs, function(x) isTRUE(x$household), logical(1))
+  )
+
   # each element of "args" is used to create its own chunk
   chunks <- Map(
     function(x, y) as_report_template(x, colname = y),
     coldefs, colnames
   )
+
+  names(chunks) <- colnames
+
+  if (length(needs_householding) > 0) {
+    extra_chunks <- Map(
+      function(x, y) hh_version(x, y, summarizer = x$summarizer),
+      coldefs[needs_householding], colnames[needs_householding]
+    )
+    names(extra_chunks) <- paste0("hh_", colnames[needs_householding])
+  } else {
+    extra_chunks <- list()
+  }
+
+  chunks <- c(chunks, extra_chunks)
+
+  colnames <- as.list(colnames)
+  colnames[needs_householding] <- lapply(
+    colnames[needs_householding],
+    function(x) c(x, paste0("hh_", x))
+  )
+  colnames <- unlist(colnames)
+  chunks <- chunks[colnames]
 
   # add all of the chunks that were thus created to the original
   # definition/report. we've passed around the column formatting instructions
@@ -30,10 +56,11 @@ custom <- function(report, ...) {
 r2sql <- listbuilder:::r2sql
 
 build_columnspecs <- function(output, colname) {
-  res <- vapply(output,
-                function(x) paste0(x$def, " as ", x$prefix, colname),
-                character(1))
-  paste(res, collapse = ", ")
+  # res <- vapply(output,
+  #               function(x) paste0(x$def, " as ", x$prefix, colname),
+  #               character(1))
+  # paste(res, collapse = ", ")
+  paste(output, "as", colname)
 }
 
 as_report_template <- function(output, colname) {
@@ -76,13 +103,10 @@ as_report_template <- function(output, colname) {
     columnspecs = columnspecs
   ))
 
-  all_colnames <- vapply(output$output, function(x) x$prefix, character(1))
-  all_colnames <- paste0(all_colnames, colname)
-
   if (!is.null(output$column_formats)) {
-    fmts <- replicate(length(all_colnames), output$column_formats)
-    names(fmts) <- all_colnames
-    attr(res, "column_formats") <- fmts
+    attr(res, "column_formats") <- structure(
+      list(output$column_formats),
+      names = colname)
   }
   res
 }

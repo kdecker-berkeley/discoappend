@@ -27,10 +27,12 @@ giving_to_fund_type <- function(..., from = NULL, to = NULL) {
 giving_to_fund <- function(..., from = NULL, to = NULL) {
   res <- discoveryengine::gave_to_fund(..., from = from, to = to)
 
-  output <- list(list(def = "sum(benefit_dept_credited_amt)",
-                      prefix = ""))
+  # output <- list(list(def = "sum(benefit_dept_credited_amt)",
+  #                     prefix = ""))
 
+  output <- "sum(benefit_dept_credited_amt)"
   flist_to_chunk(res, output = output,
                  isgrouped = TRUE,
-                 fmt = na_zero)
+                 fmt = na_zero,
+                 household = FALSE)
 }
