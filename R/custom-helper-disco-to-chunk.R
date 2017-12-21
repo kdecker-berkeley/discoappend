@@ -1,3 +1,40 @@
+# dispatcher for custom chunk definitions
+build_chunk <- function(constituency, output, isgrouped, fmt,
+                        household = FALSE,
+                        summarizer = "max") {
+  if (inherits(constituency, "idlist")) {
+    return(
+      widget_to_chunk(
+        constituency, output = output,
+        isgrouped = isgrouped,
+        fmt = fmt,
+        household = household,
+        summarizer = summarizer
+      )
+    )
+  }
+
+  if (listbuilder:::is_flist.listbuilder(constituency)) {
+    return(
+      flist_to_chunk(
+        constituency, output = output,
+        isgrouped = isgrouped,
+        fmt = fmt,
+        household = household,
+        summarizer = summarizer)
+    )}
+
+
+  return(
+    widget_to_chunk(
+      constituency, output = output,
+      isgrouped = isgrouped,
+      fmt = fmt,
+      household = household,
+      summarizer = summarizer)
+  )
+}
+
 flist_to_chunk <- function(res, output, isgrouped, fmt, household,
                            summarizer = "sum") {
   id_col <- res$from
