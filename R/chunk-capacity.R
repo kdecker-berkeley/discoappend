@@ -15,10 +15,25 @@ rating <- function(constituency) {
     column_formats = list(capacity_rating_code = as.integer,
                           capacity_rating_desc = capacity_desc_format)) %>%
     listbuilder::add_template(
+      inclination_template) %>%
+    listbuilder::add_template(
       imp_cap_template,
       column_formats = list(implied_capacity_desc = model_desc_format)) %>%
     listbuilder::add_template(
       mgs_template,
-      column_formats = list(major_gift_desc = model_desc_format))
+      column_formats = list(major_gift_score_desc = model_desc_format)) %>%
+    listbuilder::add_template(
+      cnr_model_template,
+      column_formats = list(cnr_score_desc = model_desc_format)) %>%
+    listbuilder::add_template(
+      gp_template,
+      column_formats = list(gift_planning_score_desc = model_desc_format)) %>%
+    listbuilder::add_template(
+      eng_model_template,
+      column_formats = list(engineering_score_desc = model_desc_format)) %>%
+    listbuilder::add_template(
+      haas_model_template,
+      column_formats = list(haas_score_desc = model_desc_format))
+
 }
 

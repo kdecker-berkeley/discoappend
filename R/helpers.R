@@ -21,11 +21,26 @@ cap_template <-
   "
 select
 ##entity_id##,
-capacity_rating_code,
-capacity_rating_desc,
-inclination_rating_desc,
-builder_of_berkeley_flg as builder_of_berkeley
-from cdw.d_entity_mv
+rating_code_type_desc as capacity_rating,
+evaluation_date as capacity_rating_date
+from
+cdw.d_prospect_evaluation_mv
+where
+evaluation_type in ('CI', 'CM', 'CC')
+and active_ind = 'Y'
+"
+
+inclination_template <-
+  "
+select
+##entity_id##,
+rating_code_type_desc as inclination_rating,
+evaluation_date as inclination_rating_date
+from
+cdw.d_prospect_evaluation_mv
+where
+evaluation_type in ('II', 'IC', 'IM')
+and active_ind = 'Y'
 "
 
 imp_cap_template <-
@@ -33,7 +48,8 @@ imp_cap_template <-
 select distinct
 ##entity_id##,
 first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_desc
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_desc,
+dp_date as implied_capacity_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -45,11 +61,64 @@ mgs_template <-
 select distinct
 ##entity_id##,
 first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as major_gift_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as major_gift_desc
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as major_gift_score_desc,
+dp_date as major_gift_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
 dp_rating_type_code = 'MGS'
+"
+
+cnr_model_template <-
+  "
+select distinct
+##entity_id##,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as cnr_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as cnr_score_desc,
+dp_date as cnr_score_date
+from
+cdw.d_bio_demographic_profile_mv
+where
+dp_rating_type_code = 'CNR'
+"
+
+gp_template <-
+  "
+select distinct
+##entity_id##,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as gift_planning_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as gift_planning_score_desc,
+dp_date as gift_planning_score_date
+from
+cdw.d_bio_demographic_profile_mv
+where
+dp_rating_type_code = 'GPS'
+"
+
+eng_model_template <-
+  "
+select distinct
+##entity_id##,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as engineering_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as engineering_score_desc,
+dp_date as engineering_score_date
+from
+cdw.d_bio_demographic_profile_mv
+where
+dp_rating_type_code = 'ENG'
+"
+
+haas_model_template <-
+  "
+select distinct
+##entity_id##,
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as haas_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as haas_score_desc,
+dp_date as haas_score_date
+from
+cdw.d_bio_demographic_profile_mv
+where
+dp_rating_type_code = 'HSB'
 "
 
 giving_query_template <-
