@@ -12,8 +12,7 @@
 rating <- function(constituency) {
   listbuilder::add_template(
     constituency, cap_template,
-    column_formats = list(capacity_rating_code = as.integer,
-                          capacity_rating_desc = capacity_desc_format)) %>%
+    column_formats = list(capacity_rating = capacity_desc_format)) %>%
     listbuilder::add_template(
       inclination_template) %>%
     listbuilder::add_template(
