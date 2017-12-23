@@ -1,7 +1,7 @@
 #' Append rating data to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
-#' @return data frame with the following columns: entity id, capacity rating code, capacity rating description, inclination rating description, builder of berkeley, implied capacity score, implied capacity description, major gift score, major gift description
+#' @return data frame with the following columns: entity id, capacity rating, capacity rating date, inclination rating, inclination rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
 #' @rdname rating
 #' @export
 #' @examples

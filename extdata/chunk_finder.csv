@@ -1,6 +1,7 @@
 chunk_name,output
 basic_bio,"entity id, last name, first name, spouse entity id, spouse last name, spouse first name, record types, home city, home state, home zip code, home county, home country, home msa"
-rating,"entity id, capacity rating code, capacity rating description, inclination rating description, builder of berkeley, implied capacity score, implied capacity description, major gift score, major gift description"
+rating,"entity id, capacity rating, capacity rating date, inclination rating, inclination rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
+"
 giving,"entity id, lifetime giving, largest gift, largest gift date, largest gift area, last gift, last gift date, last gift area, average gift, outstanding pledges"
 activities,"entity id, student activities, sports"
 degrees,"entity id, undergrad degree, graduate degree, degrees, class campaign year, spouse undergraduate degree, spouse graduate degree, spouse degrees, spouse class campaign year"
