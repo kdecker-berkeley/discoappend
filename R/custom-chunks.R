@@ -47,6 +47,11 @@ custom <- function(report, ...) {
   if (any(grepl("^hh_", colnames)))
     stop("Custom column names can not begin with 'hh_', please use a different name")
 
+  ## raw disco engine definitions should be treated as flag()s
+  coldefs <- lapply(coldefs,
+                    function(def)
+                      if (inherits(def, "listbuilder")) flag(def) else def)
+
   needs_householding <- which(
     vapply(coldefs, function(x) isTRUE(x$household), logical(1))
   )

@@ -55,7 +55,6 @@ flist_to_chunk <- function(res, output, isgrouped, fmt, household,
   )
 
   res$isgrouped <- isgrouped
-  res$having <- NULL
   res$output <- output
   res$household <- household
   res$column_formats = fmt
@@ -78,7 +77,7 @@ widget_to_chunk <- function(def, output, isgrouped, fmt,
                           listbuilder::get_table(def))
   res$isgrouped <- isgrouped
   res$column_formats <- fmt
-  res$having <- NULL
+  res$having <- listbuilder::get_having(def)
   res$output <- output
   res$id_type <- listbuilder::get_id_type(def)
   res$id_field <- listbuilder::get_id_field(def)
