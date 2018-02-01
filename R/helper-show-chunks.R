@@ -1,9 +1,7 @@
 chunk_df <- function() {
-  chunk_finder <- readr::read_csv("R:/Prospect Development/Prospect Analysis/discoappend/extdata/chunk_finder.csv",
-                                  col_types = readr::cols(
-                                    chunk_name = readr::col_character(),
-                                    output = readr::col_character()
-                                  ))
+  filename <- system.file("extdata", "chunk_finder.csv", package = "discoappend")
+  read.csv(filename, stringsAsFactors = FALSE,
+           colClasses = "character")
 }
 
 #' Browse the available chunk names and outputs
@@ -11,7 +9,6 @@ chunk_df <- function() {
 #' Pops up an interactive table that allows you to sort and search through a
 #' listing of all available chunks with outputs for each
 #'
-
 #' @export
 show_chunks <- function() {
   if (!requireNamespace("DT", quietly = TRUE)) {
