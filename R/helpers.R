@@ -19,28 +19,26 @@ from cdw.d_entity_mv
 
 cap_template <-
   "
-select
+select distinct
 ##entity_id##,
-rating_code_type_desc as capacity_rating,
-evaluation_date as capacity_rating_date
-from
-cdw.d_prospect_evaluation_mv
+first_value(rating_code_type_desc) over (partition by entity_id order by evaluation_date desc) as capacity_rating,
+first_value(evaluation_date) over (partition by entity_id order by evaluation_date desc) as capacity_rating_date
+from cdw.d_prospect_evaluation_mv
 where
-evaluation_type in ('CI', 'CM', 'CC')
-and active_ind = 'Y'
+active_ind = 'Y'
+and regexp_like(rating_code, '^[0-9]+')
 "
 
 inclination_template <-
   "
-select
+select distinct
 ##entity_id##,
-rating_code_type_desc as inclination_rating,
-evaluation_date as inclination_rating_date
-from
-cdw.d_prospect_evaluation_mv
+first_value(rating_code_type_desc) over (partition by entity_id order by evaluation_date desc) as inclination_rating,
+first_value(evaluation_date) over (partition by entity_id order by evaluation_date desc) as inclination_rating_date
+from cdw.d_prospect_evaluation_mv
 where
-evaluation_type in ('II', 'IC', 'IM')
-and active_ind = 'Y'
+active_ind = 'Y'
+and rating_code like 'I%'
 "
 
 imp_cap_template <-
