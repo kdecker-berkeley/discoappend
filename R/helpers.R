@@ -124,17 +124,20 @@ dp_rating_type_code = 'HSB'
 giving_query_template <-
   "
 select
-##entity_id##,
-nvl(total_raised_amt, 0) as lifetime_giving,
-nvl(largest_raised_gf_amt, 0) as largest_gift,
-largest_raised_gf_dt as largest_gift_date,
-largest_raised_gf_area_desc as largest_gift_area,
-nvl(last_raised_gf_amt, 0) as last_gift,
-last_raised_gf_dt as last_gift_date,
-last_raised_gf_area_desc as last_gift_area,
-nvl(avg_raised_gf_amt, 0) as average_gift,
-nvl(total_pledge_balance, 0) as outstanding_pledges
-from cdw.sf_entity_summary_mv
+ent.entity_id as ##entity_id##,
+nvl(giv.total_raised_amt, 0) as lifetime_giving,
+nvl(giv.largest_raised_gf_amt, 0) as largest_gift,
+giv.largest_raised_gf_dt as largest_gift_date,
+giv.largest_raised_gf_area_desc as largest_gift_area,
+nvl(giv.last_raised_gf_amt, 0) as last_gift,
+giv.last_raised_gf_dt as last_gift_date,
+giv.last_raised_gf_area_desc as last_gift_area,
+nvl(giv.avg_raised_gf_amt, 0) as average_gift,
+nvl(giv.total_pledge_balance, 0) as outstanding_pledges
+from
+  cdw.d_entity_mv ent
+  inner join cdw.sf_hh_corp_summary_mv giv
+    on ent.primary_giving_entity_id = giv.primary_giving_entity_id
 "
 
 activities_query_template <-
