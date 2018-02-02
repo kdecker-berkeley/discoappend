@@ -8,3 +8,4 @@ degrees,"entity id, undergrad degree, graduate degree, degrees, class campaign y
 employment,"entity id, employer entity id, employer name, job title, position level, field of work, sic code, business city, business state, business zip code"
 prospect,"entity id, active major proposal flg, active annual proposal flg, proposals, primary manager, primary manager office, last 3 events, event count, last contact, university signature"
 interests,"entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations"
+screening,"entity_id, fec giving, tract-level median income (from American Community Survey)"
