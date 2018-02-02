@@ -19,28 +19,26 @@ from cdw.d_entity_mv
 
 cap_template <-
   "
-select
+select distinct
 ##entity_id##,
-rating_code_type_desc as capacity_rating,
-evaluation_date as capacity_rating_date
-from
-cdw.d_prospect_evaluation_mv
+first_value(rating_code_type_desc) over (partition by entity_id order by evaluation_date desc) as capacity_rating,
+first_value(evaluation_date) over (partition by entity_id order by evaluation_date desc) as capacity_rating_date
+from cdw.d_prospect_evaluation_mv
 where
-evaluation_type in ('CI', 'CM', 'CC')
-and active_ind = 'Y'
+active_ind = 'Y'
+and regexp_like(rating_code, '^[0-9]+')
 "
 
 inclination_template <-
   "
-select
+select distinct
 ##entity_id##,
-rating_code_type_desc as inclination_rating,
-evaluation_date as inclination_rating_date
-from
-cdw.d_prospect_evaluation_mv
+first_value(rating_code_type_desc) over (partition by entity_id order by evaluation_date desc) as inclination_rating,
+first_value(evaluation_date) over (partition by entity_id order by evaluation_date desc) as inclination_rating_date
+from cdw.d_prospect_evaluation_mv
 where
-evaluation_type in ('II', 'IC', 'IM')
-and active_ind = 'Y'
+active_ind = 'Y'
+and rating_code like 'I%'
 "
 
 imp_cap_template <-
@@ -124,17 +122,20 @@ dp_rating_type_code = 'HSB'
 giving_query_template <-
   "
 select
-##entity_id##,
-nvl(total_raised_amt, 0) as lifetime_giving,
-nvl(largest_raised_gf_amt, 0) as largest_gift,
-largest_raised_gf_dt as largest_gift_date,
-largest_raised_gf_area_desc as largest_gift_area,
-nvl(last_raised_gf_amt, 0) as last_gift,
-last_raised_gf_dt as last_gift_date,
-last_raised_gf_area_desc as last_gift_area,
-nvl(avg_raised_gf_amt, 0) as average_gift,
-nvl(total_pledge_balance, 0) as outstanding_pledges
-from cdw.sf_entity_summary_mv
+ent.entity_id as ##entity_id##,
+nvl(giv.total_raised_amt, 0) as lifetime_giving,
+nvl(giv.largest_raised_gf_amt, 0) as largest_gift,
+giv.largest_raised_gf_dt as largest_gift_date,
+giv.largest_raised_gf_area_desc as largest_gift_area,
+nvl(giv.last_raised_gf_amt, 0) as last_gift,
+giv.last_raised_gf_dt as last_gift_date,
+giv.last_raised_gf_area_desc as last_gift_area,
+nvl(giv.avg_raised_gf_amt, 0) as average_gift,
+nvl(giv.total_pledge_balance, 0) as outstanding_pledges
+from
+  cdw.d_entity_mv ent
+  inner join cdw.sf_hh_corp_summary_mv giv
+    on ent.primary_giving_entity_id = giv.primary_giving_entity_id
 "
 
 activities_query_template <-
@@ -236,5 +237,57 @@ listagg(philanthropic_organization, ', ') within group (order by philanthropic_o
 from
 cdw.d_oth_phil_affinity_mv
 where stop_date is null
+group by entity_id
+"
+
+median_income_query_template <-
+"
+select
+  ent.entity_id as ##entity_id##,
+  acs.estimate as acs_median_income
+from
+  (select
+    entity_id,
+    sdo_geometry(2001, 4269,
+                 sdo_point_type(prim_home_address_longitude,
+                                prim_home_address_latitude, null),
+                 null, null) as home_location
+  from
+    cdw.d_entity_mv
+  where
+    prim_home_address_latitude is not null
+    and prim_home_address_longitude is not null
+    and prim_home_address_latitude <> 0
+    and prim_home_address_longitude <> 0) ent
+inner join rdata.geo_tract on sdo_contains(geo_tract.geometry, ent.home_location) = 'TRUE'
+inner join rdata.acs
+  on acs.acs_version = '2012-2016'
+  and variable_id = 'b19013001'
+  and geo_tract.geo_id = acs.geo_id
+"
+
+fec_query_template <-
+"
+select
+  ##entity_id##,
+  sum(fec_matched_giving) as fec_matched_giving,
+  sum(fec_matched_giving + spouse_fec_matched_giving) as hh_fec_matched_giving
+from (
+  select
+    entity_id,
+    sum(transaction_amt) as fec_matched_giving,
+    sum(0) as spouse_fec_matched_giving
+  from rdata.fec
+  group by entity_id
+  union all
+  select
+    ent.entity_id,
+    sum(0) as fec_matched_giving,
+    sum(transaction_amt) as spouse_fec_matched_giving
+  from
+    cdw.d_entity_mv ent
+    inner join rdata.fec on ent.spouse_entity_id = fec.entity_id
+  group by ent.entity_id
+)
 group by entity_id
 "
