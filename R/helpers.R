@@ -239,3 +239,55 @@ cdw.d_oth_phil_affinity_mv
 where stop_date is null
 group by entity_id
 "
+
+median_income_query_template <-
+"
+select
+  ent.entity_id as ##entity_id##,
+  acs.estimate as acs_median_income
+from
+  (select
+    entity_id,
+    sdo_geometry(2001, 4269,
+                 sdo_point_type(prim_home_address_longitude,
+                                prim_home_address_latitude, null),
+                 null, null) as home_location
+  from
+    cdw.d_entity_mv
+  where
+    prim_home_address_latitude is not null
+    and prim_home_address_longitude is not null
+    and prim_home_address_latitude <> 0
+    and prim_home_address_longitude <> 0) ent
+inner join rdata.geo_tract on sdo_contains(geo_tract.geometry, ent.home_location) = 'TRUE'
+inner join rdata.acs
+  on acs.acs_version = '2012-2016'
+  and variable_id = 'b19013001'
+  and geo_tract.geo_id = acs.geo_id
+"
+
+fec_query_template <-
+"
+select
+  ##entity_id##,
+  sum(fec_matched_giving) as fec_matched_giving,
+  sum(fec_matched_giving + spouse_fec_matched_giving) as hh_fec_matched_giving
+from (
+  select
+    entity_id,
+    sum(transaction_amt) as fec_matched_giving,
+    sum(0) as spouse_fec_matched_giving
+  from rdata.fec
+  group by entity_id
+  union all
+  select
+    ent.entity_id,
+    sum(0) as fec_matched_giving,
+    sum(transaction_amt) as spouse_fec_matched_giving
+  from
+    cdw.d_entity_mv ent
+    inner join rdata.fec on ent.spouse_entity_id = fec.entity_id
+  group by ent.entity_id
+)
+group by entity_id
+"
