@@ -243,28 +243,18 @@ group by entity_id
 median_income_query_template <-
 "
 select
-  ent.entity_id as ##entity_id##,
-  acs.estimate as acs_median_income
+  ent.##entity_id##,
+  acs.median_income
 from
-  (select
-    entity_id,
-    sdo_geometry(2001, 4269,
-                 sdo_point_type(prim_home_address_longitude,
-                                prim_home_address_latitude, null),
-                 null, null) as home_location
-  from
-    cdw.d_entity_mv
-  where
-    prim_home_address_latitude is not null
-    and prim_home_address_longitude is not null
-    and prim_home_address_latitude <> 0
-    and prim_home_address_longitude <> 0) ent
-inner join rdata.geo_tract on sdo_contains(geo_tract.geometry, ent.home_location) = 'TRUE'
-inner join rdata.acs
-  on acs.acs_version = '2012-2016'
-  and variable_id = 'b19013001'
-  and geo_tract.geo_id = acs.geo_id
+cdw.d_entity_mv ent
+inner join rdata.pd_address_shapes shapes
+  on ent.prim_home_address_latitude = shapes.latitude
+  and ent.prim_home_address_longitude = shapes.longitude
+inner join rdata.acs_pd_wealth_indicators_mv acs
+  on shapes.tract_geo_id = acs.geo_id
+  and acs.acs_version = '2012-2016'
 "
+
 
 fec_query_template <-
 "
