@@ -8,5 +8,6 @@
 #' wealthy %>% screening %>% display
 screening <- function(constituency) {
   res <- listbuilder::add_template(constituency, median_income_query_template)
-  listbuilder::add_template(res, fec_query_template)
+  res <- listbuilder::add_template(res, fec_query_template)
+  listbuilder::add_template(res, ca_query_template)
 }

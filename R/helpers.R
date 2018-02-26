@@ -281,3 +281,28 @@ from (
 )
 group by entity_id
 "
+
+ca_query_template <-
+"
+select
+##entity_id##,
+sum(ca_matched_giving) as ca_matched_giving,
+sum(ca_matched_giving + spouse_ca_matched_giving) as hh_ca_matched_giving
+from (
+  select
+  entity_id,
+  sum(amount) as ca_matched_giving,
+  sum(0) as spouse_ca_matched_giving
+  from rdata.ca_campaign
+  group by entity_id
+  union all
+  select
+  ent.entity_id,
+  sum(0) as ca_matched_giving,
+  sum(ca.amount) as spouse_ca_matched_giving
+  from
+  cdw.d_entity_mv ent
+  inner join rdata.ca_campaign ca on ent.spouse_entity_id = ca.entity_id
+  group by ent.entity_id)
+group by entity_id
+"
