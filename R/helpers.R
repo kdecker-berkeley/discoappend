@@ -154,6 +154,8 @@ select
 ungrad_degree_holder_flg as undergrad_degree,
 graduate_degree_holder_flg as graduate_degree,
 degree_major_year as degrees,
+pref_school_code as preferred_school_code,
+pref_school_desc as preferred_school,
 class_campaign_year,
 spouse_ucb_undergraduate as spouse_undergrad_degree,
 spouse_ucb_graduate as spouse_graduate_degree,
