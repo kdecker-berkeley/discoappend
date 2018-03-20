@@ -11,15 +11,15 @@ all_chunks(constituency)
 }
 \value{
 data frame with columns from all available chunks
-See \code{\link{basic_bio}},
-\code{\link{degrees}}
-\code{\link{employment}}
-\code{\link{rating}}
-\code{\link{screening}}
-\code{\link{activities}}
-\code{\link{interests}}
-\code{\link{prospect}}
-\code{\link{giving}}
+See \code{\link[discoappend]{basic_bio}},
+\code{\link[discoappend]{degrees}},
+\code{\link[discoappend]{employment}},
+\code{\link[discoappend]{rating}},
+\code{\link[discoappend]{screening}},
+\code{\link[discoappend]{activities}},
+\code{\link[discoappend]{interests}},
+\code{\link[discoappend]{prospect}},
+\code{\link[discoappend]{giving}}
 }
 \description{
 Append all available chunks to a discoveryengine definition
