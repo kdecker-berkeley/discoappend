@@ -2,6 +2,7 @@
 
 export("%>%")
 export(activities)
+export(all_chunks)
 export(append)
 export(basic_bio)
 export(custom)

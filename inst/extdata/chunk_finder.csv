@@ -4,7 +4,7 @@ rating,"entity id, capacity rating, capacity rating date, inclination rating, in
 "
 giving,"entity id, lifetime giving, largest gift, largest gift date, largest gift area, last gift, last gift date, last gift area, average gift, outstanding pledges"
 activities,"entity id, student activities, sports"
-degrees,"entity id, undergrad degree, graduate degree, degrees, class campaign year, spouse undergraduate degree, spouse graduate degree, spouse degrees, spouse class campaign year"
+degrees,"entity id, undergrad degree, graduate degree, degrees, preferred school code, preferred school, class campaign year, spouse undergraduate degree, spouse graduate degree, spouse degrees, spouse class campaign year"
 employment,"entity id, employer entity id, employer name, job title, position level, field of work, sic code, business city, business state, business zip code"
 prospect,"entity id, active major proposal flg, active annual proposal flg, proposals, primary manager, primary manager office, last 3 events, event count, last contact, university signature"
 interests,"entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations"
