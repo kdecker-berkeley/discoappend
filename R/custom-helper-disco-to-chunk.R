@@ -68,7 +68,9 @@ widget_to_chunk <- function(def, output, isgrouped, fmt,
   res$household <- household
 
   tbl <- listbuilder::get_table(def)
-  if (tbl == "custom")
+  if (is.null(tbl))
+    res$from <- listbuilder::to_sql(def)
+  else if (tbl == "custom")
     res$from <- def$custom
   else if (tbl == "manual")
     res$from <- listbuilder::to_sql(def)
@@ -80,7 +82,12 @@ widget_to_chunk <- function(def, output, isgrouped, fmt,
   res$having <- listbuilder::get_having(def)
   res$output <- output
   res$id_type <- listbuilder::get_id_type(def)
-  res$id_field <- listbuilder::get_id_field(def)
+
+  # atomic definitions have a defined id_field, but compound ones are defined
+  # by id_type
+  if (!is.null(def$operator))
+    res$id_field <- listbuilder::get_id_type(def)
+  else res$id_field <- listbuilder::get_id_field(def)
   res$where <- listbuilder::get_where(def)
   res$summarizer <- summarizer
   res

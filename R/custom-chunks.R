@@ -106,7 +106,7 @@ as_report_template <- function(output, colname) {
   select
   {{{id_field}}} as ##{{{id_type}}}##,
   {{{columnspecs}}}
-  from ({{from}})
+  from ({{{from}}})
   {{#haswhere}}
   where {{{where}}}
   {{/haswhere}}
