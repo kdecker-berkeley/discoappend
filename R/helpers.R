@@ -202,9 +202,11 @@ affiliations_query_template <-
 select
 ##entity_id##,
 listagg(affil_code_desc, ', ') within group (order by affil_code_desc) as affiliations
-from
-cdw.d_bio_affiliation_mv
+from (
+select distinct entity_id, affil_code_desc
+from cdw.d_bio_affiliation_mv
 where affil_status_code = 'C'
+)
 group by entity_id
 "
 
@@ -213,9 +215,11 @@ interests_query_template <-
 select
 ##entity_id##,
 listagg(interest_desc, ', ') within group (order by interest_desc) as interests
-from
-cdw.d_bio_interest_mv
+from (
+select distinct entity_id, interest_desc
+from cdw.d_bio_interest_mv
 where stop_dt is null
+)
 group by entity_id
 "
 
@@ -224,9 +228,11 @@ phil_interests_query_template <-
 select
 ##entity_id##,
 listagg(affinity_type_desc, ', ') within group (order by affinity_type_desc) as philanthropic_interests
-from
-cdw.d_philanthropic_interest_mv
+from (
+select distinct entity_id, affinity_type_desc
+from cdw.d_philanthropic_interest_mv
 where stop_date is null
+)
 group by entity_id
 "
 
@@ -234,11 +240,14 @@ phil_affinities_query_template <-
   "
 select
 ##entity_id##,
-listagg(other_affinity_type_desc, ', ') within group (order by other_affinity_type_desc) as philanthropic_affinities,
-listagg(philanthropic_organization, ', ') within group (order by philanthropic_organization) as philanthropic_organizations
+listagg(philanthropic_affinities, ', ') within group (order by philanthropic_affinities) as philanthropic_affinities
+from (
+select distinct entity_id,
+(other_affinity_type_desc || ' (' || philanthropic_organization || ')') as philanthropic_affinities
 from
 cdw.d_oth_phil_affinity_mv
 where stop_date is null
+)
 group by entity_id
 "
 
