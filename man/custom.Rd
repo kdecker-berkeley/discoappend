@@ -21,6 +21,12 @@ are shaped by user-provided parameters (for instance, instead of getting
 lifetime giving summaries, you might want summarized giving for each of the
 past few years). See examples below.
 }
+\section{Note}{
+
+All column names will be converted to lowercase. It is suggested you use
+lowercase when naming your custom columns to avoid confusion.
+}
+
 \examples{
 wealthy = has_capacity(1)
 

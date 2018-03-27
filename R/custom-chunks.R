@@ -7,6 +7,11 @@
 #' lifetime giving summaries, you might want summarized giving for each of the
 #' past few years). See examples below.
 #'
+#' @section Note:
+#' All column names will be converted to lowercase. It is suggested you use
+#' lowercase when naming your custom columns to avoid confusion.
+#'
+#'
 #' @param report Either a disco engine definition, or a partial report created
 #' by appending one or more chunks to a disco engine definition
 #' @param ... named descriptions of custom columns to add to output. Add as many
