@@ -6,8 +6,8 @@
 #' @export
 #' @examples
 #' wealthy = has_capacity(1)
-#' wealthy_ratings = rating(wealthy)
-#' display(wealthy_ratings)
+#' wealthy_interests = interests(wealthy)
+#' display(wealthy_interests)
 #'
 interests <- function(constituency) {
   listbuilder::add_template(
