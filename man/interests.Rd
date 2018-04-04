@@ -17,7 +17,7 @@ Append interest to a discoveryengine definition
 }
 \examples{
 wealthy = has_capacity(1)
-wealthy_ratings = rating(wealthy)
-display(wealthy_ratings)
+wealthy_interests = interests(wealthy)
+display(wealthy_interests)
 
 }
