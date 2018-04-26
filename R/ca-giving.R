@@ -7,6 +7,7 @@
 #' @param ... One or more codes (candidate/proposition)
 #' @param from Start date, in the format YYYYMMDD
 #' @param to End date, in the format YYYYMMDD
+#' @param support TRUE/FALSE, whether to look for supporters (TRUE) or those opposed (FALSE) to the ballot initiative. Defailts to both (support and oppose)
 #'
 #' @seealso \code{\link{custom}}
 #'
@@ -30,8 +31,8 @@ NULL
 
 #' @rdname custom_ca_giving
 #' @export
-ca_giving_to_proposition <- function(..., from = NULL, to = NULL) {
-  res <- discoveryengine::ca_gave_to_proposition(..., from = from, to = to)
+ca_giving_to_proposition <- function(..., from = NULL, to = NULL, support = NULL) {
+  res <- discoveryengine::ca_gave_to_proposition(..., from = from, to = to, support = support)
   output <- "sum(amount)"
 
   build_chunk(

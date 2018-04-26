@@ -6,7 +6,7 @@
 \alias{ca_giving_to_candidate}
 \title{Detailed CA campaign giving summaries in custom chunks}
 \usage{
-ca_giving_to_proposition(..., from = NULL, to = NULL)
+ca_giving_to_proposition(..., from = NULL, to = NULL, support = NULL)
 
 ca_giving_to_candidate(..., from = NULL, to = NULL)
 }
@@ -16,6 +16,8 @@ ca_giving_to_candidate(..., from = NULL, to = NULL)
 \item{from}{Start date, in the format YYYYMMDD}
 
 \item{to}{End date, in the format YYYYMMDD}
+
+\item{support}{TRUE/FALSE, whether to look for supporters (TRUE) or those opposed (FALSE) to the ballot initiative. Defailts to both (support and oppose)}
 }
 \description{
 These functions are used inside the \code{\link{custom}} function, to create
