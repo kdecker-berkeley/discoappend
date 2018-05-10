@@ -317,3 +317,21 @@ from (
   group by ent.entity_id)
 group by entity_id
 "
+
+sec_query_template <-
+  "select
+distinct dict.##entity_id##,
+1 as has_sec,
+max(hdr.is_director) as is_director,
+max(hdr.is_officer) as is_officer,
+max(hdr.is_ten_percenter) as is_ten_percenter
+from rdata.sec_cik_dict dict
+left join rdata.sec_hdr hdr
+on dict.cik = hdr.cik
+group by dict.entity_id"
+
+cik_link_template <-
+  "select
+distinct ##entity_id##,
+concat('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=', cik) as sec_link
+from rdata.sec_cik_dict"
