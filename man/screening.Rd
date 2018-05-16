@@ -10,7 +10,7 @@ screening(constituency)
 \item{constituency}{A discoveryengine definition}
 }
 \value{
-data frame with the following columns: entity id, amedian_income, fec_matched_giving, hh_fec_matched_giving, ca_matched_giving, hh_ca_matched_giving, has_sec, is_director, is_officer, is_ten_percenter, sec_link
+data frame with the following columns: entity id, median_income, fec_matched_giving, hh_fec_matched_giving, ca_matched_giving, hh_ca_matched_giving, has_sec, is_director, is_officer, is_ten_percenter, hh_has_sec, hh_is_director, hh_is_officer, hh_is_ten_percenter, sec_link, hh_sec_links
 }
 \description{
 Append external screening data to a discoveryengine definition

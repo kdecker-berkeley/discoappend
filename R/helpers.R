@@ -330,8 +330,81 @@ left join rdata.sec_hdr hdr
 on dict.cik = hdr.cik
 group by dict.entity_id"
 
+sec_hh_template <-
+  "select
+##entity_id##,
+greatest(has_sec, spouse_has_sec) as hh_has_sec,
+greatest(is_director, spouse_is_director) as hh_is_director,
+greatest(is_officer, spouse_is_officer) as hh_is_officer,
+greatest(is_ten_percenter, spouse_is_ten_percenter) as hh_is_ten_percenter
+from (
+select
+entity_id,
+max(has_sec) as has_sec,
+max(0) as spouse_has_sec,
+max(is_director) as is_director,
+max(0) as spouse_is_director,
+max(is_officer) as is_officer,
+max(0) as spouse_is_officer,
+max(is_ten_percenter) as is_ten_percenter,
+max(0) as spouse_is_ten_percenter
+from (select
+distinct dict.entity_id,
+1 as has_sec,
+max(hdr.is_director) as is_director,
+max(hdr.is_officer) as is_officer,
+max(hdr.is_ten_percenter) as is_ten_percenter
+from rdata.sec_cik_dict dict
+left join rdata.sec_hdr hdr
+on dict.cik = hdr.cik
+group by dict.entity_id)
+group by entity_id
+union all
+select
+ent.entity_id,
+max(0) as has_sec,
+max(has_sec) as spouse_has_sec,
+max(0) as is_director,
+max(is_director) as spouse_is_director,
+max(0) as is_officer,
+max(is_officer) as spouse_is_officer,
+max(0) as is_ten_percenter,
+max(is_ten_percenter) as spouse_is_ten_percenter
+from
+cdw.d_entity_mv ent
+inner join ((select
+distinct dict.entity_id,
+1 as has_sec,
+max(hdr.is_director) as is_director,
+max(hdr.is_officer) as is_officer,
+max(hdr.is_ten_percenter) as is_ten_percenter
+from rdata.sec_cik_dict dict
+left join rdata.sec_hdr hdr
+on dict.cik = hdr.cik
+group by dict.entity_id) sec) on ent.spouse_entity_id = sec.entity_id
+group by ent.entity_id)"
+
 cik_link_template <-
   "select
 distinct ##entity_id##,
 concat('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=', cik) as sec_link
 from rdata.sec_cik_dict"
+
+hh_cik_link_template <-
+  "select entity_id,
+concat(sec_link, spouse_sec_link) as hh_sec_links
+from (
+  select
+  ##entity_id##,
+        concat('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=', cik) as sec_link,
+        NULL as spouse_sec_link
+        from rdata.sec_cik_dict
+        union all
+        select
+        ent.entity_id,
+        NULL as sec_link,
+        concat('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=', cik) as spouse_sec_link
+        from
+        cdw.d_entity_mv ent
+        inner join rdata.sec_cik_dict sec on ent.spouse_entity_id = sec.entity_id
+  )"
