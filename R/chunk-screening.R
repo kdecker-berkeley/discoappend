@@ -13,5 +13,5 @@ screening <- function(constituency) {
   res <- listbuilder::add_template(res, sec_query_template)
   res <- listbuilder::add_template(res, sec_hh_template)
   res <- listbuilder::add_template(res, cik_link_template)
-  listbuilder::add_template(res, cik_hh_cik_link_template)
+  listbuilder::add_template(res, hh_cik_link_template)
 }
