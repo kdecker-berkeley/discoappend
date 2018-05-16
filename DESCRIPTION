@@ -1,7 +1,7 @@
 Package: discoappend
 Type: Package
 Title: Append data to a discoveryengine definition
-Version: 0.1.2
+Version: 0.2.0
 Author: Caleb
 Maintainer: Caleb <cwolfsonseeley@berkeley.edu>
 Description: Uses a discovery engine definition to return data from the UC Berkeley data warehouse. 
