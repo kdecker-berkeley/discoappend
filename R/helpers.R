@@ -45,9 +45,9 @@ imp_cap_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as implied_capacity_desc,
-dp_date as implied_capacity_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as implied_capacity_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as implied_capacity_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as implied_capacity_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -58,9 +58,9 @@ mgs_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as major_gift_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as major_gift_score_desc,
-dp_date as major_gift_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -71,9 +71,9 @@ cnr_model_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as cnr_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as cnr_score_desc,
-dp_date as cnr_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as cnr_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as cnr_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as cnr_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -84,9 +84,9 @@ gp_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as gift_planning_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as gift_planning_score_desc,
-dp_date as gift_planning_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_planning_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_planning_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_planning_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -97,9 +97,9 @@ eng_model_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as engineering_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as engineering_score_desc,
-dp_date as engineering_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as engineering_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as engineering_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as engineering_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
@@ -110,9 +110,9 @@ haas_model_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc) as haas_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc) as haas_score_desc,
-dp_date as haas_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as haas_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as haas_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as haas_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
