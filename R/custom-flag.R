@@ -25,7 +25,7 @@ flag <- function(constituency) {
   build_chunk(
     constituency, output = output,
     isgrouped = TRUE,
-    fmt = na_no,
+    fmt = yn_tf,
     household = TRUE,
     summarizer = "max"
   )
