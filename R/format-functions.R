@@ -25,3 +25,4 @@ capacity_desc_format <- function(desc) {
 na_zero <- function(x) ifelse(is.na(x), 0, x)
 na_no <- function(x) ifelse(is.na(x), "N", x)
 yn_tf <- function(x) na_no(x) == "Y"
+onezero_tf <- function(x) na_zero(x) > 0
