@@ -8,6 +8,9 @@ test_that("all chunks are accounted for in the registry", {
   existing_chunks <- gsub("\\.R$", "", existing_chunks)
   existing_chunks <- gsub("-", "_", existing_chunks)
 
+  # all chunks doesn't need to be part of the registry
+  existing_chunks <- existing_chunks[existing_chunks != "all"]
+
   registered_chunks <- chunk_df()$chunk_name
 
   not_registered <- setdiff(existing_chunks, registered_chunks)
