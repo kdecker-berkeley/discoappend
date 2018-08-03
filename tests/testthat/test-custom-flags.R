@@ -39,3 +39,9 @@ test_that("custom_flags work for any disco engine definition", {
   expect_is(test7, "report")
 })
 
+test_that("custom_flags work for idlist definitions (e.g. entities)", {
+  # see issue 43
+  expect_is(has_capacity(1) %>%
+    custom(is1234 = entities(1234)), "report")
+})
+
