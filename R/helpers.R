@@ -176,7 +176,10 @@ entity.fld_of_work_desc as field_of_work,
 entity.sic_code_desc as sic_code,
 entity.business_city,
 entity.business_state_code as business_state,
-entity.business_zipcode5 as business_zip
+entity.business_zipcode5 as business_zip,
+entity.business_county_desc as business_county,
+entity.business_country_desc as business_country,
+entity.business_geo_metro_area_desc as business_msa
 from cdw.d_entity_mv entity
 left join cdw.d_entity_mv employ on entity.employer_entity_id = employ.entity_id
 "
