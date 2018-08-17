@@ -85,7 +85,7 @@ widget_to_chunk <- function(def, output, isgrouped, fmt,
 
   # atomic definitions have a defined id_field, but compound ones are defined
   # by id_type
-  if (!is.null(def$operator))
+  if (!is.null(listbuilder::get_operator(def)))
     res$id_field <- listbuilder::get_id_type(def)
   else res$id_field <- listbuilder::get_id_field(def)
   res$where <- listbuilder::get_where(def)
