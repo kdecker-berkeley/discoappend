@@ -12,7 +12,7 @@
 #'
 contacts_by_unit <- function(constituency, unit) {
   query <- contacts_by_unit_template
-  tmpl <- parameterize_template(query)
+  tmpl <- getcdw::parameterize_template(query)
   chunk <- tmpl(entity_id = "##entity_id##", unit = unit)
-  add_template(constituency, chunk)
+  listbuilder::add_template(constituency, chunk)
 }
