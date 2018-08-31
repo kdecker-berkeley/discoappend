@@ -8,14 +8,4 @@ Description: Uses a discovery engine definition to return data from the UC Berke
 License: 2017
 Encoding: UTF-8
 LazyData: true
-Imports:
-  discoveryengine,
-  listbuilder,
-  dplyr,
-  magrittr,
-  dbplyr
-Suggests:
-  knitr,
-  rmarkdown,
-    testthat
 RoxygenNote: 6.0.1
