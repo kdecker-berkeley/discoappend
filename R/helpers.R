@@ -394,12 +394,12 @@ group by entity_id
 contacts_by_unit_template <- "
 select distinct
 ##entity_id##,
-max(case when contact_nbr = 1 then contact_date else NULL end) as last_contact_date,
-max(case when contact_nbr = 1 then description else NULL end) as last_contact,
-max(case when contact_nbr = 2 then contact_date else NULL end) as second_last_contact_date,
-max(case when contact_nbr = 2 then description else NULL end) as second_last_contact,
-max(case when contact_nbr = 3 then contact_date else NULL end) as third_last_contact_date,
-max(case when contact_nbr = 3 then description else NULL end) as third_last_contact
+max(case when contact_nbr = 1 then contact_date else NULL end) as last_unit_contact_date,
+max(case when contact_nbr = 1 then description else NULL end) as last_unit_contact,
+max(case when contact_nbr = 2 then contact_date else NULL end) as second_last_unit_contact_date,
+max(case when contact_nbr = 2 then description else NULL end) as second_last_unit_contact,
+max(case when contact_nbr = 3 then contact_date else NULL end) as third_last_unit_contact_date,
+max(case when contact_nbr = 3 then description else NULL end) as third_last_unit_contact
 from
 (select
   row_number() over (partition by entity_id order by contact_date desc) as contact_nbr,
