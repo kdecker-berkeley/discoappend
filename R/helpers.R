@@ -255,20 +255,20 @@ group by entity_id
 "
 
 median_income_query_template <-
-"
+  "
 select
-  ent.##entity_id##,
-  acs.median_income
+ent.##entity_id##,
+acs.estimate as median_income
 from
 cdw.d_entity_mv ent
 inner join rdata.pd_address_shapes shapes
-  on ent.prim_home_address_latitude = shapes.latitude
-  and ent.prim_home_address_longitude = shapes.longitude
-inner join rdata.acs_pd_wealth_indicators_mv acs
-  on shapes.tract_geo_id = acs.geo_id
-  and acs.acs_version = '2012-2016'
+on ent.prim_home_address_latitude = shapes.latitude
+and ent.prim_home_address_longitude = shapes.longitude
+inner join rdata.acs
+on shapes.tract_geo_id = acs.geo_id
+and acs.acs_version = '2012-2016'
+and acs.variable_id = 'b19013001'
 "
-
 
 fec_query_template <-
 "
@@ -427,3 +427,71 @@ from
       and contact_alt_entity_id is not null)))
 group by entity_id
 "
+
+robo_rating_template <- "
+select
+core.##entity_id##,
+round((nvl(homeprice.home_price, 400000) + nvl(stocks.stockholdings, 0) + 5 * nvl(income.median_income, 70000)) / 20) as robo_rating
+from
+cdw.d_entity_mv core
+left join (
+select
+entity.entity_id,
+zillow.home_price
+from
+cdw.d_entity_mv entity
+inner join (
+select distinct
+zipcode,
+first_value(value) over (partition by zipcode order by month desc) as home_price
+from rdata.zillow_median_price_zip
+) zillow
+on entity.prim_home_zipcode5 = zillow.zipcode
+where
+trim(entity.prim_home_zipcode5) is not null
+and entity.prim_home_zipcode5 <> '00000'
+and length(entity.prim_home_zipcode5) = 5
+and regexp_like(entity.prim_home_zipcode5, '^[0-9]+$')
+and zillow.zipcode is not null
+) homeprice
+on core.entity_id = homeprice.entity_id
+left join
+(
+  select
+  ent.entity_id,
+  acs.estimate as median_income
+  from
+  cdw.d_entity_mv ent
+  inner join rdata.pd_address_shapes shapes
+  on ent.prim_home_address_latitude = shapes.latitude
+  and ent.prim_home_address_longitude = shapes.longitude
+  inner join rdata.acs
+  on shapes.tract_geo_id = acs.geo_id
+  and acs.acs_version = '2012-2016'
+  and acs.variable_id = 'b19013001'
+) income
+  on core.entity_id = income.entity_id
+  left join (
+  select
+  entity_id,
+  sum(stockholdings) as stockholdings
+  from (
+  select distinct
+  dict.entity_id,
+  hdr.issuer_cik,
+  nd.direct_indirect,
+  first_value(nd.post_transaction_shares * nd.price_share)
+  over (partition by dict.entity_id, hdr.issuer_cik, nd.direct_indirect order by transaction_date desc) as stockholdings
+  from
+  rdata.sec_cik_dict dict
+  inner join rdata.sec_hdr hdr
+  on dict.cik = hdr.cik
+  inner join rdata.sec_nonderiv nd
+  on hdr.accession = nd.accession
+  where
+  nd.post_transaction_shares > 0
+  and nd.price_share > 0
+  ) group by entity_id
+  ) stocks
+  on core.entity_id = stocks.entity_id
+  "

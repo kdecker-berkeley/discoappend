@@ -1,7 +1,7 @@
 Package: discoappend
 Type: Package
 Title: Append data to a discoveryengine definition
-Version: 0.2.2
+Version: 0.2.3
 Author: Caleb
 Maintainer: Caleb <cwolfsonseeley@berkeley.edu>
 Description: Uses a discovery engine definition to return data from the UC Berkeley data warehouse. 
@@ -9,13 +9,14 @@ License: 2017
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Imports:
-  discoveryengine,
-  listbuilder,
-  dplyr,
-  magrittr,
-  dbplyr
+Imports: magrittr,
+    listbuilder,
+    getcdw,
+    discoveryengine,
+    dbplyr,
+    whisker,
+    DT
 Suggests:
   knitr,
   rmarkdown,
-    testthat
+  testthat
