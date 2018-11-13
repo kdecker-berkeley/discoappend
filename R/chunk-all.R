@@ -24,7 +24,6 @@ all_chunks <- function(constituency) {
   listbuilder::add_template(emp_query_template) %>%
   listbuilder::add_template(cap_template,
     column_formats = list(capacity_rating = capacity_desc_format)) %>%
-  listbuilder::add_template(inclination_template) %>%
   listbuilder::add_template(imp_cap_template,
     column_formats = list(implied_capacity_desc = model_desc_format)) %>%
   listbuilder::add_template(mgs_template,
