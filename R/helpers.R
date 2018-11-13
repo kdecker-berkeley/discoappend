@@ -29,18 +29,6 @@ active_ind = 'Y'
 and regexp_like(rating_code, '^[0-9]+')
 "
 
-inclination_template <-
-  "
-select distinct
-##entity_id##,
-first_value(rating_code_type_desc) over (partition by entity_id order by evaluation_date desc) as inclination_rating,
-first_value(evaluation_date) over (partition by entity_id order by evaluation_date desc) as inclination_rating_date
-from cdw.d_prospect_evaluation_mv
-where
-active_ind = 'Y'
-and rating_code like 'I%'
-"
-
 imp_cap_template <-
   "
 select distinct
