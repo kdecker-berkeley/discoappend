@@ -419,7 +419,7 @@ group by entity_id
 robo_rating_template <- "
 select
 core.##entity_id##,
-round((nvl(homeprice.home_price, 400000) + nvl(stocks.stockholdings, 0) + 5 * nvl(income.median_income, 70000)) / 20) as robo_rating
+round((nvl(homeprice.home_price, 400000) + nvl(stocks.stockholdings, 0) + 5 * nvl(income.median_income, 70000)) / 20) as unverified_estimate
 from
 cdw.d_entity_mv core
 left join (
