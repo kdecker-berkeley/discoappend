@@ -8,7 +8,7 @@ Description: Uses a discovery engine definition to return data from the UC Berke
 License: 2017
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Imports: magrittr,
     listbuilder,
     getcdw,

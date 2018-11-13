@@ -10,7 +10,7 @@ rating(constituency)
 \item{constituency}{A discoveryengine definition}
 }
 \value{
-data frame with the following columns: entity id, capacity rating, capacity rating date, inclination rating, inclination rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
+data frame with the following columns: entity id, capacity rating, capacity rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
 }
 \description{
 Append rating data to a discoveryengine definition
