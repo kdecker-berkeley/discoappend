@@ -1,6 +1,6 @@
 chunk_name,output
 basic_bio,"entity id, last name, first name, spouse entity id, spouse last name, spouse first name, record types, home city, home state, home zip code, home county, home country, home msa"
-rating,"entity id, capacity rating, capacity rating date, inclination rating, inclination rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
+rating,"entity id, capacity rating, capacity rating date, implied capacity score, implied capacity description, implied capacity score date, major gift score, major gift description, major gift score date, CNR score, CNR score description, CNR score date, Gift Planning score, Gift Planning score description, Gift Planning score date, Engineering score, Engineering score description, Engineering score date, Haas score, Haas score description, Haas score date
 "
 giving,"entity id, lifetime giving, largest gift, largest gift date, largest gift area, last gift, last gift date, last gift area, average gift, outstanding pledges"
 activities,"entity id, student activities, sports"
@@ -9,4 +9,4 @@ employment,"entity id, employer entity id, employer name, job title, position le
 prospect,"entity id, active major proposal flg, active annual proposal flg, proposals, primary manager, primary manager office, last 3 events, event count, last contact, university signature"
 interests,"entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations"
 screening,"entity_id, fec giving, tract-level median income (from American Community Survey)"
-robo_rating,"entity_id, robo_rating"
+unverified_estimate,"entity_id, unverified_estimate"
