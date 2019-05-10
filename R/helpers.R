@@ -46,9 +46,9 @@ mgs_template <-
   "
 select distinct
 ##entity_id##,
-first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score,
-first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score_desc,
-first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as major_gift_score_date
+first_value(to_number(weight)) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_score,
+first_value(dp_interest_desc) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_score_desc,
+first_value(dp_date) over (partition by entity_id order by to_number(weight) desc, dp_date desc) as gift_score_date
 from
 cdw.d_bio_demographic_profile_mv
 where
