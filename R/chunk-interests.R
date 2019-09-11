@@ -1,7 +1,7 @@
 #' Append interest to a discoveryengine definition
 #'
 #' @param constituency A discoveryengine definition
-#' @return data frame with the following columns: entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations
+#' @return data frame with the following columns: entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations, committees
 #' @rdname interests
 #' @export
 #' @examples
@@ -17,7 +17,9 @@ interests <- function(constituency) {
     listbuilder::add_template(
     phil_interests_query_template) %>%
     listbuilder::add_template(
-    phil_affinities_query_template)
+    phil_affinities_query_template) %>%
+  listbuilder::addtemplate(
+    committees_template)
 
 }
 
