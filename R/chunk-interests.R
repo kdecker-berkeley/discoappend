@@ -18,7 +18,7 @@ interests <- function(constituency) {
     phil_interests_query_template) %>%
     listbuilder::add_template(
     phil_affinities_query_template) %>%
-  listbuilder::addtemplate(
+  listbuilder::add_template(
     committees_template)
 
 }

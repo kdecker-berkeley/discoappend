@@ -44,6 +44,8 @@ all_chunks <- function(constituency) {
   listbuilder::add_template(interests_query_template) %>%
   listbuilder::add_template(phil_interests_query_template) %>%
   listbuilder::add_template(phil_affinities_query_template) %>%
+    listbuilder::add_template(
+      committees_template) %>%
   listbuilder::add_template(prospect_query_template,
     column_formats = list(event_count = na_zero)) %>%
   listbuilder::add_template(giving_query_template,
