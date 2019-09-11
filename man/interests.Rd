@@ -10,7 +10,7 @@ interests(constituency)
 \item{constituency}{A discoveryengine definition}
 }
 \value{
-data frame with the following columns: entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations
+data frame with the following columns: entity id, affiliations, interests, philanthropic interests, philanthropic affinities, philanthropic organizations, committees
 }
 \description{
 Append interest to a discoveryengine definition
