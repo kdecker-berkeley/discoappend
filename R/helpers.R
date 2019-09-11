@@ -483,3 +483,15 @@ left join
   ) stocks
   on core.entity_id = stocks.entity_id
   "
+committees_template <-
+  "
+select
+##entity_id##,
+listagg(committee_desc, ', ') within group (order by committee_desc) as committees
+from (
+select distinct entity_id, committee_desc
+from cdw.d_bio_committee_mv
+where status_code = 'A' 
+)
+group by entity_id
+"
