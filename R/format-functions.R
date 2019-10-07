@@ -14,10 +14,7 @@ capacity_desc_format <- function(desc) {
     "8 ($500K+)",
     "9 ($250K+)",
     "10 ($100K+)",
-    "11 ($50K+)",
-    "12 ($25K+)",
-    "13 ($10K+)",
-    "14 (<$10K)",
+    "Not Major Gift",
     "Cannot be rated"
   ))
 }
