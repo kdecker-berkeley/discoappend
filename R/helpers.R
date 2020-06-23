@@ -26,7 +26,7 @@ first_value(evaluation_date) over (partition by entity_id order by evaluation_da
 from cdw.d_prospect_evaluation_mv
 where
 active_ind = 'Y'
-and regexp_like(rating_code, '^[0-9]+')
+and (regexp_like(rating_code, '^[0-9]+') or rating_code = 'IN')
 "
 
 imp_cap_template <-
@@ -491,7 +491,7 @@ listagg(committee_desc, ', ') within group (order by committee_desc) as committe
 from (
 select distinct entity_id, committee_desc
 from cdw.d_bio_committee_mv
-where status_code = 'A' 
+where status_code = 'A'
 )
 group by entity_id
 "
