@@ -41,8 +41,6 @@ environmental_interest = has_interest(environment)
 wealthy \%>\%
   custom(environmnetalist = flag(environmental_interest))
 
-}
-\seealso{
-\code{\link{custom_giving_chunks}}, \code{\link{custom_fec_chunks}},
 \code{\link{flag}}
+
 }
